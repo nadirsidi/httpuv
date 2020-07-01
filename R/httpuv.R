@@ -88,7 +88,6 @@ ErrorStream <- R6::R6Class(
 )
 stdErrStream <- ErrorStream$new()
 
-#' @importFrom promises promise then finally is.promise %...>% %...!%
 rookCall <- function(func, req, data = NULL, dataLength = -1) {
 
   # Break the processing into two parts: first, the computation with func();
@@ -159,11 +158,7 @@ rookCall <- function(func, req, data = NULL, dataLength = -1) {
     return(on_error(compute_error))
   }
 
-  if (is.promise(response)) {
-    response %...>% prepare_response %...!% on_error
-  } else {
-    tryCatch(prepare_response(response), error = on_error)
-  }
+  tryCatch(prepare_response(response), error = on_error)
 }
 
 AppWrapper <- R6::R6Class(
